@@ -10,8 +10,7 @@ import java.util.random.RandomGenerator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class HorseTest {
     @Test
@@ -80,18 +79,29 @@ public class HorseTest {
 
     @Test
     public void testMove() {
-
-        MockedStatic<Horse> horseMock = Mockito.mockStatic(Horse.class);
-        horseMock.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(0.5);
-
-        Horse horse = new Horse("Bucephalus", 10);
-        horse.move();
-
-        horseMock.verify(() -> Horse.getRandomDouble(0.2, 0.9));
+        try (MockedStatic<Horse> horseMock = mockStatic(Horse.class)) {
+            Horse horse = new Horse("Bucephalus", 10, 100);
+            horse.move();
+            horseMock.verify(() -> Horse.getRandomDouble(0.2, 0.9));
+        }
     }
 
     @Test
     public void testGetRandomDouble() {
+        double speed = 10.0;
+        double distance = 100.0;
+        double randomDouble = 0.5;
+
+        try (MockedStatic<Horse> horseMock = mockStatic(Horse.class)) {
+            horseMock.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(randomDouble);
+
+            Horse horse = new Horse("Bucephalus", speed, distance);
+            horse.move();
+
+            double expectedDistance = distance + speed * randomDouble;
+            double actualDistance = horse.getDistance();
+            assertEquals(expectedDistance, actualDistance);
+        }
 
     }
 

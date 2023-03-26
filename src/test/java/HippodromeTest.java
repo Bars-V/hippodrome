@@ -7,7 +7,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TestHippodrome {
+public class HippodromeTest {
     @Test
     public void testExceptionConstructorWithNullArguments() {
         assertThrows(IllegalArgumentException.class, () -> new Hippodrome(null));
