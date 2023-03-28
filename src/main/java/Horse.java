@@ -1,27 +1,42 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static java.util.Objects.isNull;
 
 public class Horse {
-
+    private static final Logger logger = LogManager.getLogger(Hippodrome.class);
     private final String name;
     private final double speed;
     private double distance;
 
     public Horse(String name, double speed, double distance) {
         if (isNull(name)) {
+            logger.error("ERROR Horse: Name is null");
             throw new IllegalArgumentException("Name cannot be null.");
         } else if (name.isBlank()) {
+            logger.error("ERROR Horse: Name is blank");
             throw new IllegalArgumentException("Name cannot be blank.");
         }
         if (speed < 0) {
-            throw new IllegalArgumentException("Speed cannot be negative.");
+            logger.error("ERROR Horse: Speed is negative");
+            throw new IllegalArgumentException("Name cannot be null.");
         }
         if (distance < 0) {
+            logger.error("ERROR Horse: Distance is negative");
             throw new IllegalArgumentException("Distance cannot be negative.");
         }
 
         this.name = name;
         this.speed = speed;
         this.distance = distance;
+        logger.debug(
+                "DEBUG Horse: Создание Horse, имя [" +
+                        name +
+                        "] , скорость [" +
+                        speed +
+                        "]"
+        );
+
     }
 
     public Horse(String name, double speed) {

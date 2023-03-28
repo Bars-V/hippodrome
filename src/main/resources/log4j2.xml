@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <RollingFile name="InfoAppender" fileName="logs/info-${date:yyyy-MM-dd-HH-mm-ss}.log"
+                     filePattern="logs/info-%d{yyyy-MM-dd-HH-mm-ss}-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %c{1}: %m%n"/>
+            <Filters>
+                <LevelRangeFilter minLevel="info" maxLevel="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs">
+                    <IfFileName glob="info-*.log"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="ErrorAppender" fileName="logs/error-${date:yyyy-MM-dd-HH-mm-ss}.log"
+                     filePattern="logs/error-%d{yyyy-MM-dd-HH-mm-ss}-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %c{1}: %m%n"/>
+            <Filters>
+                <LevelRangeFilter minLevel="error" maxLevel="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs">
+                    <IfFileName glob="error-*.log"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="DebugAppender" fileName="logs/debug-${date:yyyy-MM-dd-HH-mm-ss}.log"
+                     filePattern="logs/debug-%d{yyyy-MM-dd-HH-mm-ss}-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %c{1}: %m%n"/>
+            <Filters>
+                <LevelRangeFilter minLevel="debug" maxLevel="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs">
+                    <IfFileName glob="debug-*.log"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="debug">
+            <AppenderRef ref="InfoAppender" />
+            <AppenderRef ref="ErrorAppender" />
+            <AppenderRef ref="DebugAppender" />
+        </Root>
+        <Logger name="com.example.info" level="info">
+            <AppenderRef ref="DebugAppender" />
+        </Logger>
+        <Logger name="com.example.errors" level="error">
+            <AppenderRef ref="ErrorAppender" />
+        </Logger>
+
+    </Loggers>
+
+
+</Configuration>
